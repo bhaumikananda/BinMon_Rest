@@ -7,6 +7,7 @@ import org.binmon.demo.jpa.domain.Dept;
 import org.binmon.demo.jpa.service.DepartmentService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -30,7 +31,8 @@ public class DepartmentController {
 
 	@GetMapping("/dept/list")
 	public ResponseEntity<List<Dept>> getAllDept(@RequestHeader(value="myHeader") String headerStr) {
-	    logger.info("this is a info message");
+		MDC.put("myHeader", headerStr);
+		logger.info("this is a info message");
 	    logger.warn("this is a warn message");
 	    logger.error("this is a error message");
 		HttpHeaders headers = new HttpHeaders();

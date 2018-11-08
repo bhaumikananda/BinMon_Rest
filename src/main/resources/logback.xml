@@ -2,14 +2,14 @@
 <configuration>
    <appender name = "STDOUT" class = "ch.qos.logback.core.ConsoleAppender">
       <encoder>
-         <pattern>[%d{yy-MM-dd HH:mm:ss}] %X{myHeader} [%t] [%C] [%L] [%-5p] %m%n</pattern>
+         <pattern>[%d{yy-MM-dd HH:mm:ss}] %X{myHeader} %-5level %logger{36} - %msg%n</pattern>
       </encoder>
    </appender>
    
    <appender name = "FILE" class = "ch.qos.logback.core.FileAppender">
       <File>/Users/anandabhaumik/binmonspring/binmon_rest/src/main/resources/log/mylog.log</File>
       <encoder>
-         <pattern>[%d{yy-MM-dd HH:mm:ss}] %X{myHeader} [%t] [%C] [%L] [%-5p] %m%n</pattern>
+         <pattern>[%d{yy-MM-dd HH:mm:ss}] %X{myHeader} %-5level %logger{36} - %msg%n</pattern>
       </encoder>
    </appender>
    

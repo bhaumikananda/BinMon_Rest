@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 public class DepartmentService {
 
 	@Autowired
-	DepartmentRepository departmentRepository;
+	private DepartmentRepository departmentRepository;
 	
 	private List<Dept> departments = new ArrayList<Dept>(Arrays.asList(
 			new Dept("1", "Maths", "Bhaumik"),
@@ -22,6 +22,9 @@ public class DepartmentService {
 			new Dept("3", "French", "Mance")
 		));
 
+	public List<Dept> getDepartmentsFromInstance() {
+		return departments;
+	}
 	
 	public List<Dept> getDepartments() {
 		List<Dept> depts = new ArrayList<>();
@@ -52,5 +55,9 @@ public class DepartmentService {
 	
 	public boolean deleteDepartment(String deptId) {
 		return departments.remove(departments.stream().filter(t -> t.getDeptId().equals(deptId)).findFirst().get());
+	}
+
+	public void setDepartmentRepository(DepartmentRepository departmentRepository) {
+		this.departmentRepository = departmentRepository;
 	}
 }
