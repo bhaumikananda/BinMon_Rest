@@ -54,7 +54,8 @@ public class DepartmentService {
 	}
 	
 	public boolean deleteDepartment(String deptId) {
-		return departments.remove(departments.stream().filter(t -> t.getDeptId().equals(deptId)).findFirst().get());
+		departmentRepository.deleteById(deptId);
+		return true;
 	}
 
 	public void setDepartmentRepository(DepartmentRepository departmentRepository) {
