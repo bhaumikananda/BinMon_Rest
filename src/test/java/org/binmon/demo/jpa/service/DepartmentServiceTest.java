@@ -4,7 +4,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -19,20 +18,16 @@ import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
 public class DepartmentServiceTest {
 	
 	@InjectMocks
-	DepartmentService deptServ = new DepartmentService();
-	
-	@Spy
-	DepartmentRepository deptRepoStubSpy;
+	DepartmentService departmentService;
 	
 	@Mock
-	DepartmentRepository deptRepoStub;
+	DepartmentRepository departmentRepositoryMock;
 
 	
 	@Test
@@ -42,15 +37,14 @@ public class DepartmentServiceTest {
 	}
 	
 	@Test
-	public void testFindallWithDB() {
-	when(deptRepoStub.findAll()).thenReturn(new ArrayList<Dept>(Arrays.asList(
+	public void testFindAllWithDBMock() {
+	when(departmentRepositoryMock.findAll()).thenReturn(new ArrayList<Dept>(Arrays.asList(
 			new Dept("1", "Maths", "Bhaumik"),
 			new Dept("2", "Physics", "Sen"),
-			new Dept("Hi", "Physics", "Sen"),
 			new Dept("3", "French", "Mance")
 		)));
-	
-	assertTrue(deptServ.getDepartments().size()==4);
+	List<Dept> departments = departmentService.getDepartments();
+	assertTrue(departments.get(0).getDeptHead().equals("Bhaumik"));
 	}
 	
 	
@@ -79,13 +73,13 @@ public class DepartmentServiceTest {
 	
 	@Test
 	public void testDelete() {	
-		when(deptRepoStub.findAll()).thenReturn(Arrays.asList(new Dept("11", "History", "Guha"), new Dept("12", "Physics", "Bhaba")));
-		deptRepoStub.saveAll(Arrays.asList(new Dept("11", "History", "Guha"), new Dept("12", "Physics", "Physics")));
-		assertTrue(deptServ.getDepartments().size()==2);
+		when(departmentRepositoryMock.findAll()).thenReturn(Arrays.asList(new Dept("11", "History", "Guha"), new Dept("12", "Physics", "Bhaba")));
+		departmentRepositoryMock.saveAll(Arrays.asList(new Dept("11", "History", "Guha"), new Dept("12", "Physics", "Physics")));
+		assertTrue(departmentService.getDepartments().size()==2);
 
-		deptServ.addDepartment(new Dept("11", "History", "Guha"));		
+		departmentService.addDepartment(new Dept("11", "History", "Guha"));		
 		ArgumentCaptor<Dept> arg = ArgumentCaptor.forClass(Dept.class);
-		verify(deptRepoStub).save(arg.capture());
+		verify(departmentRepositoryMock).save(arg.capture());
 		assertEquals("History", arg.getValue().getDeptName());
 	}
 	
